@@ -63,8 +63,8 @@ def send_text_file(file_name):
 
 
 @app.route('/upload', methods=['GET', 'POST'])
-def property_form():
-    uploadForm = UploadForm()
+def upload_form():
+    uploadForm = UploadForm(request.json)
     responseObj = []
 
     if request.method == 'POST':
@@ -89,8 +89,7 @@ def property_form():
                     "errors": [form_errors(uploadForm)]
                 }
             ]
-
-    return responseObj
+    return jsonify(response=responseObj)
 
 
 @app.after_request

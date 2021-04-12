@@ -57,6 +57,52 @@ const Home = {
     }
 };
 
+const uploadForm = {
+    name: 'upload-form',
+    template : `<form id="uploadForm" @submit.prevent = "uploadPhoto">
+    <div class="form-group">
+    <label for="description">Description</label>
+    <input type="text" class="form-control" id="description" name="description" placeholder="Enter description">
+  </div>
+  <div class="form-group">
+    <label for="image">Image</label>
+    <input type="file" class="form-control" id="image" name="photo" placeholder="Image">
+  </div>
+  <button type="submit" @click ="uploadPhoto" class="btn btn-primary">Submit</button>
+</form>`,
+    data() {
+        return {
+            description:"",
+
+        }
+    },
+    methods : {
+        uploadPhoto() {
+
+            let uploadForm =  document.getElementById('uploadForm')
+            let form_data = new FormData(uploadForm)
+
+            console.log(form_data.get("description"))
+
+            fetch("/api/upload", {
+                method: 'POST',
+                body:form_data,
+                headers: {
+                    'X-CSRFToken': token
+                },
+                credentials: 'same-origin',
+            }).then((response)=> {
+                return response.json();
+            }).then((jsonResponse)=> {
+                //display success message
+                console.log(jsonResponse)
+            }).catch((error) => {
+                console.log(error)
+            })
+        }
+    }
+}
+
 const NotFound = {
     name: 'NotFound',
     template: `
@@ -73,7 +119,7 @@ const NotFound = {
 const routes = [
     { path: "/", component: Home },
     // Put other routes here
-
+    { path: "/uploadForm", component: uploadForm },
     // This is a catch all route in case none of the above matches
     { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFound }
 ];
