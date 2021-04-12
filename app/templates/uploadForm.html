@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <div class="p-lg-5">
+     <div class="card">
+    <h3 class="card-header text-center">Add New Property</h3>
+     <div class="card-body">
+    <h5 class="card-title">Here you may add a new property using our easy to read form system</h5>
+           <form method="post" action="{{ url_for('uploadForm') }}" enctype="multipart/form-data">
+        {% include 'flash_messages.html' %}
+        {{ form.csrf_token }}
+        <div class="form-group">
+            {{ form.description.label }} {{ form.description(class="form-control") }}
+        </div>
+               <div class="form-group" style="width: 50% " >
+            {{ form.photo.label }} {{ form.photo(class="form-control") }}
+        </div>
+    <button type="submit" class="btn btn-primary">Add Property</button>
+    </form>
+  </div>
+    </div>
+    </div>
+
+
+{% endblock %}
